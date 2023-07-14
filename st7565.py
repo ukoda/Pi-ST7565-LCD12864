@@ -38,12 +38,12 @@ class Glcd(object):
     LCD_WIDTH = 128
     LCD_HEIGHT = 64
     LCD_PAGE_COUNT = 8
-    LCD_CONTRAST = 0x19
+    LCD_CONTRAST = 0x0
 
     BACKLIGHT_PWM_FREQUENCY = 100
 
     # LCD Page Order
-    __pagemap = (3, 2, 1, 0, 7, 6, 5, 4)
+    __pagemap = (7, 6, 5, 4, 3, 2, 1, 0)
 
     def __init__(self, a0=24, cs=8, rst=25, rgb=None):
         """Constructor for ST7565.
@@ -172,7 +172,7 @@ class Glcd(object):
     def set_contrast(self, level):
         """Set contrast
         Args:
-            level (int): contrast level  0 - 255
+            level (int): contrast level  0 - 63
         """
         self.send_command([self.CMD_SET_VOLUME_FIRST])
         self.send_command([self.CMD_SET_VOLUME_SECOND | (level & 0x3f)])
@@ -262,7 +262,7 @@ class Glcd(object):
         """Send back buffer to ST7565 display"""
         for idx in range(0, self.LCD_PAGE_COUNT):
             # Home cursor on the page
-            self.move_cursor(1, idx)
+            self.move_cursor(0, idx)
             # Page start row
             row_start = idx << 3
             # Page stop row
