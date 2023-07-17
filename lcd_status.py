@@ -54,8 +54,12 @@ try:
     
     timestr = time.strftime("%H:%M:%S")
     mine = os.popen('uptime')
-    up = mine.read().split()[2].split(',')[0]
+    upstrs = mine.read().split()
     mine.close()
+    if ':' in upstrs[2]:
+      up = upstrs[2].split(',')[0]
+    else:
+      up = upstrs[2].split(',')[0] + ' ' + upstrs[3].split(',')[0]
 
     glcd.draw_string(timestr + ' up ' + up, neato, 0, 36)
     
